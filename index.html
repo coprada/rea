@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>OUR UNIVERSE</title>
+  
+  <!-- Preconnect Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Dancing+Script:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Custom Glow Cursor -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Fullscreen Galaxy Canvas -->
+  <canvas id="galaxyCanvas"></canvas>
+
+  <!-- 1. LOADING SCREEN -->
+  <section id="loadingScreen" class="overlay-screen">
+    <div class="loader-content">
+      <div class="cosmic-ring"></div>
+      <h2 class="cinzel-title">INITIALIZING UNIVERSE...</h2>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <span class="progress-text" id="progressText">0%</span>
+    </div>
+  </section>
+
+  <!-- 2. INTRODUCTION SCREEN -->
+  <section id="introScreen" class="overlay-screen hidden">
+    <div class="intro-content">
+      <h1 class="main-title cinzel-title">OUR UNIVERSE</h1>
+      <p class="subtitle" id="introSubtitle">A little universe I made for you.</p>
+      <button id="enterBtn" class="glass-btn pulse-glow">
+        <span>ENTER OUR UNIVERSE</span>
+        <div class="btn-glow"></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- 3. MAIN GALAXY HUD -->
+  <main id="galaxyHud" class="hud-container hidden">
+    <!-- Header HUD -->
+    <header class="galaxy-header">
+      <div class="tracker-glass">
+        <span class="tracker-label">MEMORIES DISCOVERED</span>
+        <span class="tracker-count" id="memoryTracker">0 / 6</span>
+      </div>
+    </header>
+
+    <!-- Floating Tooltip for Stars -->
+    <div id="starTooltip" class="star-tooltip hidden">
+      <span id="tooltipText">A MEMORY</span>
+    </div>
+
+    <!-- Floating Audio Control -->
+    <div id="audioControl" class="audio-control glass-card">
+      <button id="musicToggle" class="icon-btn" aria-label="Toggle Music">
+        <span class="music-icon">♫</span>
+      </button>
+      <div class="music-info">
+        <span class="music-label">NOW PLAYING</span>
+        <span class="music-title" id="musicTitle">Our Song</span>
+      </div>
+    </div>
+    <audio id="bgMusic" loop preload="auto"></audio>
+
+    <!-- Secret Star Hint Trigger Banner -->
+    <div id="secretStarBanner" class="secret-banner hidden">
+      <p>THERE IS ONE STAR LEFT.</p>
+      <small>Maybe you should find it.</small>
+    </div>
+  </main>
+
+  <!-- 4. MEMORY MODAL -->
+  <div id="memoryModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-card glass-modal">
+      <button class="close-btn" id="closeModalBtn" aria-label="Close">&times;</button>
+      <div class="modal-header">
+        <span class="memory-number" id="modalNumber">MEMORY 01</span>
+        <h2 class="memory-title cinzel-title" id="modalTitle">The Beginning</h2>
+        <span class="memory-date" id="modalDate">August 12, 2024</span>
+      </div>
+      <div class="modal-media" id="modalMedia">
+        <img id="modalImage" src="" alt="Memory Image" class="memory-img">
+      </div>
+      <div class="modal-body">
+        <p id="modalMessage" class="memory-message"></p>
+      </div>
+      <div class="modal-footer">
+        <button id="modalCloseActionBtn" class="glass-btn small-btn">CLOSE MEMORY</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. FINAL REVEAL & LETTER SECTION -->
+  <section id="finalRevealSection" class="final-section hidden">
+    <!-- Stage A: Cinematic Text Sequence -->
+    <div id="cinematicTextStage" class="cinematic-stage">
+      <p id="cinematicLine1" class="type-line"></p>
+      <p id="cinematicLine2" class="type-line"></p>
+      <p id="cinematicLine3" class="type-line"></p>
+      <div id="cinematicHeart" class="glowing-heart hidden">❤️</div>
+      <p id="cinematicLine4" class="type-line bold-line"></p>
+      <button id="continueToLetterBtn" class="glass-btn hidden">READ MY LETTER</button>
+    </div>
+
+    <!-- Stage B: Love Letter & Gallery -->
+    <div id="letterAndGalleryStage" class="letter-stage hidden">
+      <div class="letter-card glass-card">
+        <h2 class="cinzel-title letter-title">A LETTER FOR YOU</h2>
+        <div class="letter-content dancing-script" id="letterTextContainer"></div>
+      </div>
+
+      <!-- Photo Memories Gallery -->
+      <section class="gallery-section">
+        <h3 class="cinzel-title gallery-title">OUR FAVORITE MOMENTS</h3>
+        <div class="photo-grid" id="photoGalleryGrid">
+          <!-- Dynamically populated from JS CONFIG -->
+        </div>
+      </section>
+
+      <!-- Final Question Component -->
+      <section class="question-section glass-card">
+        <p class="question-subtitle">One last question...</p>
+        <h2 class="cinzel-title question-title">Will you stay in my universe?</h2>
+        <div class="question-actions">
+          <button id="yesBtn1" class="glass-btn choice-btn">YES ❤️</button>
+          <button id="yesBtn2" class="glass-btn choice-btn">OF COURSE ❤️</button>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- 6. CELEBRATION OVERLAY WITH ROSE CONSTELLATION -->
+  <div id="celebrationOverlay" class="celebration-screen hidden">
+    <div class="celebration-content">
+      
+      <!-- Rose Constellation SVG -->
+      <div class="rose-constellation-container">
+        <svg id="roseConstellationSvg" viewBox="0 0 200 240" class="rose-svg">
+          <!-- Stem & Leaves -->
+          <path class="constellation-line" d="M100,220 C100,160 95,140 100,100" />
+          <path class="constellation-line" d="M98,170 C80,160 65,165 60,150 C75,145 90,150 97,162" />
+          <path class="constellation-line" d="M101,150 C120,140 135,145 140,130 C125,125 110,130 102,142" />
+          
+          <!-- Outer Petals -->
+          <path class="constellation-line" d="M100,100 C70,95 50,70 65,45 C85,25 115,25 135,45 C150,70 130,95 100,100 Z" />
+          <path class="constellation-line" d="M75,80 C60,60 70,40 90,35 C110,35 135,50 125,75" />
+          
+          <!-- Inner Rose Bloom -->
+          <path class="constellation-line" d="M85,60 C80,45 100,35 115,45 C125,55 110,70 95,65" />
+          <path class="constellation-line" d="M95,55 C90,48 105,45 108,52 C105,60 98,58 95,55 Z" />
+
+          <!-- Star Nodes on the Rose -->
+          <circle class="rose-star" cx="100" cy="220" r="3" />
+          <circle class="rose-star" cx="100" cy="100" r="4" />
+          <circle class="rose-star" cx="60" cy="150" r="3" />
+          <circle class="rose-star" cx="140" cy="130" r="3" />
+          <circle class="rose-star" cx="65" cy="45" r="3.5" />
+          <circle class="rose-star" cx="135" cy="45" r="3.5" />
+          <circle class="rose-star" cx="100" cy="25" r="4" />
+          <circle class="rose-star" cx="108" cy="52" r="3" />
+        </svg>
+      </div>
+
+      <h1 class="cinzel-title celebration-header">THEN LET'S KEEP WRITING OUR STORY.</h1>
+      <p class="chapter-text">Chapter ∞</p>
+      <p class="quote-text">“Forever isn't a destination. It's every moment we choose each other.”</p>
+      
+      <!-- Replay Button Container -->
+      <div class="replay-action-container">
+        <button id="replayBtn" class="glass-btn replay-btn">REPLAY OUR UNIVERSE 🌌</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Easter Egg Secret Popup -->
+  <div id="secretToast" class="secret-toast hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
